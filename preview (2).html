@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ObfusX Key System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Unbounded:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: #000;
+    font-family: "Unbounded", "Montserrat", system-ui, sans-serif;
+    color: #fff;
+  }
+
+  /* STAR LAYERS */
+  .stars, .stars2 {
+    position: fixed;
+    width: 120%;
+    height: 120%;
+    top: -10%;
+    left: -10%;
+  }
+
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.8;
+  }
+
+  .stars { z-index: 0; }
+  .stars2 { z-index: 0; opacity: 0.6; }
+
+  /* CENTER */
+  .container {
+    position: relative;
+    z-index: 2;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .glow {
+    position: absolute;
+    width: 340px;
+    height: 240px;
+    background: rgba(255,255,255,0.08);
+    filter: blur(50px);
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  .panel {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 42px 60px;
+    border-radius: 18px;
+
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+  }
+
+  .title {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 22px;
+  }
+
+  button {
+    padding: 14px 30px;
+    font-size: 15px;
+
+    font-family: "Unbounded", sans-serif;
+    font-weight: 300;
+
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.25s ease;
+  }
+
+  button:hover {
+    background: #e6e6e6;
+    transform: translateY(-2px);
+  }
+</style>
+</head>
+
+<body>
+
+<div class="stars" id="stars"></div>
+<div class="stars2" id="stars2"></div>
+
+<div class="container">
+  <div class="glow"></div>
+
+  <div class="panel">
+    <div class="title">ObfusX Key System</div>
+    <button onclick="goToLink()">Get Link</button>
+  </div>
+</div>
+
+<script>
+  /* STAR CREATION */
+  function createStars(id, count) {
+    const container = document.getElementById(id);
+
+    for (let i = 0; i < count; i++) {
+      const star = document.createElement("div");
+      star.className = "star";
+
+      star.style.top = Math.random() * 100 + "vh";
+      star.style.left = Math.random() * 100 + "vw";
+      star.style.opacity = Math.random();
+
+      // random drift speed
+      star.dataset.speed = Math.random() * 0.3 + 0.05;
+
+      container.appendChild(star);
+    }
+  }
+
+  createStars("stars", 140);
+  createStars("stars2", 90);
+
+  /* MOUSE PARALLAX */
+  document.addEventListener("mousemove", (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5);
+    const y = (e.clientY / window.innerHeight - 0.5);
+
+    document.getElementById("stars").style.transform =
+      `translate(${x * 20}px, ${y * 20}px)`;
+
+    document.getElementById("stars2").style.transform =
+      `translate(${x * 40}px, ${y * 40}px)`;
+  });
+
+  /* CONTINUOUS STAR DRIFT */
+  function animateStars() {
+    document.querySelectorAll(".star").forEach(star => {
+      let top = parseFloat(star.style.top);
+      let speed = parseFloat(star.dataset.speed || 0.1);
+
+      top += speed;
+
+      if (top > 100) top = 0;
+
+      star.style.top = top + "vh";
+    });
+
+    requestAnimationFrame(animateStars);
+  }
+
+  animateStars();
+
+  /* LINK */
+  function goToLink() {
+    window.location.href = "https://work.ink/2yZl/key-for-obfusx";
+  }
+</script>
+
+</body>
+</html>
